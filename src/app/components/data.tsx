@@ -47,8 +47,28 @@ export interface Loan {
   fechaPrestamo: string;
   fechaDevolucion: string;
   fechaDevolucionReal?: string;
-  estado: "activo" | "vencido" | "devuelto";
+  estado: "pendiente" | "activo" | "vencido" | "devuelto" | "rechazado";
   renovaciones: number;
+  tipo?: "regular" | "externo";
+  cantidad?: number;
+  justificacion?: string;
+}
+
+export interface PurchaseRequest {
+  id: string;
+  usuarioId: string;
+  titulo: string;
+  autor: string;
+  isbn?: string;
+  editorial?: string;
+  anio?: number;
+  tipo: "libro_fisico" | "libro_electronico" | "licencia_digital";
+  cantidad: number;
+  justificacion: string;
+  asignatura?: string;
+  fechaSolicitud: string;
+  estado: "pendiente" | "en_evaluacion" | "aprobada" | "rechazada";
+  observaciones?: string;
 }
 
 export interface Reservation {
@@ -703,6 +723,71 @@ export const INVENTORY_ITEMS: InventoryItem[] = [
   { id: "I024", libroId: "B012", codigoEjemplar: "B012-E03", condicion: "deteriorado", disponible: false, fechaAdquisicion: "2017-08-01", ubicacion: "C-07-2" },
 ];
 
+// ─── Mock Purchase Requests ───────────────────────────────────────────────────
+
+export const INITIAL_PURCHASE_REQUESTS: PurchaseRequest[] = [
+  {
+    id: "SQ001",
+    usuarioId: "U004",
+    titulo: "Teoría del Derecho Constitucional",
+    autor: "Luigi Ferrajoli",
+    isbn: "978-84-9879-543-2",
+    editorial: "Trotta",
+    anio: 2022,
+    tipo: "libro_fisico",
+    cantidad: 5,
+    justificacion: "Texto obligatorio para Derecho Constitucional Avanzado. Los 3 ejemplares existentes son insuficientes para un grupo de 35 estudiantes.",
+    asignatura: "Derecho Constitucional Avanzado",
+    fechaSolicitud: "2026-06-10",
+    estado: "pendiente",
+  },
+  {
+    id: "SQ002",
+    usuarioId: "U007",
+    titulo: "DSM-5-TR: Manual Diagnóstico y Estadístico de los Trastornos Mentales",
+    autor: "American Psychiatric Association",
+    editorial: "Panamericana",
+    anio: 2023,
+    tipo: "licencia_digital",
+    cantidad: 30,
+    justificacion: "Licencia digital para acceso concurrente de alumnos de posgrado en Psicología Clínica. La edición impresa actual está desactualizada.",
+    asignatura: "Psicopatología Clínica",
+    fechaSolicitud: "2026-06-12",
+    estado: "en_evaluacion",
+  },
+  {
+    id: "SQ003",
+    usuarioId: "U004",
+    titulo: "Código Civil Federal Comentado 2026",
+    autor: "Instituto de Investigaciones Jurídicas UNAM",
+    editorial: "UNAM",
+    anio: 2026,
+    tipo: "libro_fisico",
+    cantidad: 10,
+    justificacion: "Actualización urgente con las reformas vigentes. Imprescindible para prácticas de litigación.",
+    asignatura: "Derecho Civil",
+    fechaSolicitud: "2026-05-28",
+    estado: "aprobada",
+    observaciones: "Presupuesto asignado. Proceso de adquisición iniciado. Entrega estimada: julio 2026.",
+  },
+  {
+    id: "SQ004",
+    usuarioId: "U012",
+    titulo: "Introduction to Linear Algebra, 5th Ed.",
+    autor: "Gilbert Strang",
+    isbn: "978-1-7331466-2-6",
+    editorial: "Wellesley-Cambridge Press",
+    anio: 2023,
+    tipo: "libro_fisico",
+    cantidad: 8,
+    justificacion: "Texto de referencia internacional para los cursos de Álgebra Lineal de ingeniería. Superior a la edición actual en la biblioteca.",
+    asignatura: "Álgebra Lineal Aplicada",
+    fechaSolicitud: "2026-06-01",
+    estado: "rechazada",
+    observaciones: "Presupuesto no disponible en el ciclo actual. Se sugiere reenviar la solicitud en el próximo período.",
+  },
+];
+
 export type ModuleId =
   | "dashboard"
   | "catalogo"
@@ -710,12 +795,14 @@ export type ModuleId =
   | "usuarios"
   | "reservas"
   | "gestion-libros"
+  | "solicitudes-adquisicion"
   | "inicio"
   | "mis-prestamos"
   | "mis-reservas"
+  | "mis-solicitudes"
   | "perfil";
 
-export type UserRole = "guest" | "estudiante" | "bibliotecario" | "admin";
+export type UserRole = "guest" | "estudiante" | "docente" | "bibliotecario" | "admin";
 
 export interface AuthUser {
   role: UserRole;
@@ -770,5 +857,21 @@ export const DEMO_ACCOUNTS: {
     userId: "U003",
     name: "Ana Hernández López",
     email: "ahernandez@unilib.edu.mx",
+  },
+  {
+    username: "rsanchez",
+    password: "doc2024",
+    role: "docente",
+    userId: "U004",
+    name: "Dr. Roberto Sánchez Fuentes",
+    email: "rsanchez@unilib.edu.mx",
+  },
+  {
+    username: "pvega",
+    password: "doc2024",
+    role: "docente",
+    userId: "U007",
+    name: "Dra. Patricia Vega Montes",
+    email: "pvega@unilib.edu.mx",
   },
 ];

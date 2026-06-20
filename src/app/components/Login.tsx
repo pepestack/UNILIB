@@ -11,12 +11,14 @@ const ROLE_LABELS: Record<string, string> = {
   admin: "Administrador",
   bibliotecario: "Bibliotecario",
   estudiante: "Estudiante",
+  docente: "Docente",
 };
 
 const ROLE_COLORS: Record<string, { bg: string; color: string }> = {
   admin:        { bg: "#FEF3C7", color: "#92400E" },
   bibliotecario:{ bg: "#DBEAFE", color: "#1E40AF" },
   estudiante:   { bg: "#DCFCE7", color: "#166534" },
+  docente:      { bg: "#EDE9FE", color: "#4C1D95" },
 };
 
 function getInitials(name: string) {
