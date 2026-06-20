@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BookMarked, CalendarDays, AlertTriangle, CheckCircle2, Clock, User, BookOpen } from "lucide-react";
-import { BOOKS, USERS, INITIAL_LOANS, INITIAL_RESERVATIONS, type AuthUser } from "./data";
+import { BOOKS, USERS, INITIAL_RESERVATIONS, type AuthUser, type Loan } from "./data";
 import { BookCover } from "./BookCover";
 
 type Tab = "inicio" | "prestamos" | "reservas" | "perfil";
@@ -8,6 +8,7 @@ type Tab = "inicio" | "prestamos" | "reservas" | "perfil";
 interface StudentProfileProps {
   authUser: AuthUser;
   initialTab?: Tab;
+  loans?: Loan[];
 }
 
 function formatDate(str: string) {
@@ -32,11 +33,11 @@ function resvStatusInfo(estado: string) {
   return { label: "Completada", color: "#16A34A", bg: "#DCFCE7" };
 }
 
-export function StudentProfile({ authUser, initialTab = "inicio" }: StudentProfileProps) {
+export function StudentProfile({ authUser, initialTab = "inicio", loans = [] }: StudentProfileProps) {
   const [tab, setTab] = useState<Tab>(initialTab);
 
   const user = USERS.find((u) => u.id === authUser.userId);
-  const myLoans = INITIAL_LOANS.filter((l) => l.usuarioId === authUser.userId);
+  const myLoans = loans.filter((l) => l.usuarioId === authUser.userId);
   const myActiveLoans = myLoans.filter((l) => l.estado === "activo" || l.estado === "vencido");
   const myOverdueLoans = myLoans.filter((l) => l.estado === "vencido");
   const myHistory = myLoans.filter((l) => l.estado === "devuelto");

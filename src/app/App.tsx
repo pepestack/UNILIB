@@ -10,7 +10,7 @@ import { Reservations } from "./components/Reservations";
 import { BookManagement } from "./components/BookManagement";
 import { StudentProfile } from "./components/StudentProfile";
 import { AdminProfile } from "./components/AdminProfile";
-import type { AuthUser, ModuleId, UserRole } from "./components/data";
+import { INITIAL_LOANS, type AuthUser, type Loan, type ModuleId, type UserRole } from "./components/data";
 
 type AppState = "login" | "guest" | "authenticated";
 
@@ -36,6 +36,7 @@ export default function App() {
   const [appState, setAppState] = useState<AppState>("login");
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
   const [activeModule, setActiveModule] = useState<ModuleId>("dashboard");
+  const [loans, setLoans] = useState<Loan[]>(INITIAL_LOANS);
 
   function handleLogin(user: AuthUser) {
     setAuthUser(user);
@@ -53,24 +54,35 @@ export default function App() {
     setAppState("login");
   }
 
-  // ── Login page
+  function handleRequestLoan(bookId: string, userId: string) {
+    const today = new Date().toISOString().split("T")[0];
+    const dueDate = new Date(Date.now() + 14 * 86400000).toISOString().split("T")[0];
+    const newLoan: Loan = {
+      id: `P${String(loans.length + 1).padStart(3, "0")}`,
+      libroId: bookId,
+      usuarioId: userId,
+      fechaPrestamo: today,
+      fechaDevolucion: dueDate,
+      estado: "activo",
+      renovaciones: 0,
+    };
+    setLoans((prev) => [newLoan, ...prev]);
+  }
+
   if (appState === "login") {
     return <Login onLogin={handleLogin} onGuest={handleGuest} />;
   }
 
-  // ── Guest / public home
   if (appState === "guest") {
     return <PublicHome onLogin={() => setAppState("login")} />;
   }
 
-  // ── Authenticated app
   if (!authUser) return null;
 
   const role = authUser.role;
 
   return (
     <div className="flex h-full overflow-hidden" style={{ fontFamily: "'Inter', sans-serif", background: "var(--background)" }}>
-      {/* Sidebar */}
       <Sidebar
         active={activeModule}
         onNavigate={setActiveModule}
@@ -81,9 +93,7 @@ export default function App() {
         onLogout={handleLogout}
       />
 
-      {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* Top bar */}
         <header
           className="flex items-center justify-between px-7 py-4 border-b"
           style={{ background: "var(--card)", borderColor: "var(--border)", flexShrink: 0, boxShadow: "0 1px 0 var(--border)" }}
@@ -117,9 +127,7 @@ export default function App() {
           </div>
         </header>
 
-        {/* Page content */}
         <main className="flex-1 overflow-y-auto px-7 py-6">
-          {/* Admin & Bibliotecario modules */}
           {(role === "admin" || role === "bibliotecario") && (
             <>
               {activeModule === "dashboard" && <Dashboard />}
@@ -128,18 +136,32 @@ export default function App() {
               {activeModule === "usuarios" && <Users />}
               {activeModule === "reservas" && <Reservations />}
               {activeModule === "gestion-libros" && role === "admin" && <BookManagement />}
-              {activeModule === "perfil" && role !== "estudiante" && <AdminProfile authUser={authUser} />}
+              {activeModule === "perfil" && <AdminProfile authUser={authUser} />}
             </>
           )}
 
-          {/* Estudiante modules */}
           {role === "estudiante" && (
             <>
-              {activeModule === "inicio" && <StudentProfile authUser={authUser} initialTab="inicio" />}
-              {activeModule === "mis-prestamos" && <StudentProfile authUser={authUser} initialTab="prestamos" />}
-              {activeModule === "mis-reservas" && <StudentProfile authUser={authUser} initialTab="reservas" />}
-              {activeModule === "perfil" && role === "estudiante" && <StudentProfile authUser={authUser} initialTab="perfil" />}
-              {activeModule === "catalogo" && <Catalog />}
+              {activeModule === "inicio" && (
+                <StudentProfile authUser={authUser} initialTab="inicio" loans={loans} />
+              )}
+              {activeModule === "mis-prestamos" && (
+                <StudentProfile authUser={authUser} initialTab="prestamos" loans={loans} />
+              )}
+              {activeModule === "mis-reservas" && (
+                <StudentProfile authUser={authUser} initialTab="reservas" loans={loans} />
+              )}
+              {activeModule === "perfil" && (
+                <StudentProfile authUser={authUser} initialTab="perfil" loans={loans} />
+              )}
+              {activeModule === "catalogo" && (
+                <Catalog
+                  authUser={authUser}
+                  loans={loans}
+                  onRequestLoan={handleRequestLoan}
+                  onNavigate={setActiveModule}
+                />
+              )}
             </>
           )}
         </main>
