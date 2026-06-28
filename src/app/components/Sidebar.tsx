@@ -20,7 +20,6 @@ const BIBLIOTECARIO_NAV: NavItem[] = [
   { id: "dashboard",            label: "Dashboard",               icon: <LayoutDashboard size={17} /> },
   { id: "catalogo",             label: "Catálogo",                icon: <BookOpen size={17} /> },
   { id: "prestamos",            label: "Gestión de Préstamos",    icon: <BookMarked size={17} /> },
-  { id: "usuarios",             label: "Gestión de Usuarios",     icon: <Users size={17} /> },
   { id: "reservas",             label: "Reservas",                icon: <CalendarDays size={17} /> },
   { id: "solicitudes-adquisicion", label: "Adquisiciones",        icon: <ShoppingCart size={17} /> },
 ];

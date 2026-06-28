@@ -213,6 +213,7 @@ export default function App() {
             <>
               {activeModule !== "catalogo" && (
                 <StudentProfile
+                  key={activeModule}
                   authUser={authUser}
                   initialTab={studentTab(activeModule) as any}
                   loans={loans}
@@ -235,6 +236,7 @@ export default function App() {
             <>
               {activeModule !== "catalogo" && (
                 <DocProfile
+                  key={activeModule}
                   authUser={authUser}
                   initialTab={docenteTab(activeModule) as any}
                   loans={loans}
