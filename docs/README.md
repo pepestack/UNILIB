@@ -6,6 +6,8 @@ Este repositorio es un prototipo para el sistema de gestión bibliotecario UNILI
 
 El prototipo fue creado con la herramienta Figma Make, el cual esta disponible en [https://www.figma.com/design/CPSFM9AIiX2wCCIqLaRfgQ/UNILIB](https://www.figma.com/design/CPSFM9AIiX2wCCIqLaRfgQ/UNILIB).
 
+**En la carpeta `docs` se encuentran los documentos de entregas anteriores y la actual (final).**
+
 ## Funciones principales del proyecto
 
 - Panel de inicio de sesión con cuentas de prueba
