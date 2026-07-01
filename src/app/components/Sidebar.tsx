@@ -31,7 +31,6 @@ const ESTUDIANTE_NAV: NavItem[] = [
   { id: "catalogo",             label: "Catálogo",                icon: <BookOpen size={17} /> },
   { id: "mis-prestamos",        label: "Mis Préstamos",           icon: <BookMarked size={17} /> },
   { id: "mis-reservas",         label: "Mis Reservas",            icon: <CalendarDays size={17} /> },
-  { id: "reportes",             label: "Reportes",                icon: <BarChart2 size={17} /> },
 ];
 
 const DOCENTE_NAV: NavItem[] = [
@@ -40,7 +39,6 @@ const DOCENTE_NAV: NavItem[] = [
   { id: "mis-prestamos",        label: "Mis Préstamos",           icon: <BookMarked size={17} /> },
   { id: "mis-reservas",         label: "Mis Reservas",            icon: <CalendarDays size={17} /> },
   { id: "mis-solicitudes",      label: "Mis Adquisiciones",       icon: <ShoppingCart size={17} /> },
-  { id: "reportes",             label: "Reportes",                icon: <BarChart2 size={17} /> },
 ];
 
 function getNav(role: UserRole): NavItem[] {

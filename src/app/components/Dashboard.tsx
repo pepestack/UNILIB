@@ -1,5 +1,5 @@
 import { BookOpen, BookMarked, Users, CalendarDays, AlertTriangle, Clock, TrendingUp, CheckCircle2 } from "lucide-react";
-import { BOOKS, INITIAL_LOANS, USERS, INITIAL_RESERVATIONS } from "./data";
+import { BOOKS, USERS, INITIAL_RESERVATIONS, type Loan } from "./data";
 
 interface StatCardProps {
   icon: React.ReactNode;
@@ -55,21 +55,25 @@ function statusLabel(estado: string) {
   return { label: "Devuelto", color: "#6B7A99", bg: "#F1F5F9" };
 }
 
-export function Dashboard() {
+interface DashboardProps {
+  loans: Loan[];
+}
+
+export function Dashboard({ loans }: DashboardProps) {
   const totalLibros = BOOKS.length;
   const totalEjemplares = BOOKS.reduce((a, b) => a + b.totalEjemplares, 0);
-  const prestamosActivos = INITIAL_LOANS.filter((l) => l.estado === "activo" || l.estado === "vencido").length;
-  const prestamosVencidos = INITIAL_LOANS.filter((l) => l.estado === "vencido").length;
+  const prestamosActivos = loans.filter((l) => l.estado === "activo" || l.estado === "vencido" || l.estado === "pendiente").length;
+  const prestamosVencidos = loans.filter((l) => l.estado === "vencido").length;
   const usuariosActivos = USERS.filter((u) => u.estado === "activo").length;
   const reservasPendientes = INITIAL_RESERVATIONS.filter((r) => r.estado === "pendiente").length;
   const librosDisponibles = BOOKS.filter((b) => b.disponibles > 0).length;
 
-  const recentLoans = [...INITIAL_LOANS]
+  const recentLoans = [...loans]
     .filter((l) => l.estado !== "devuelto")
     .sort((a, b) => new Date(b.fechaPrestamo).getTime() - new Date(a.fechaPrestamo).getTime())
     .slice(0, 6);
 
-  const overdueLoans = INITIAL_LOANS.filter((l) => l.estado === "vencido");
+  const overdueLoans = loans.filter((l) => l.estado === "vencido");
 
   function getBook(id: string) {
     return BOOKS.find((b) => b.id === id);

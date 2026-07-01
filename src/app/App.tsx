@@ -239,11 +239,11 @@ export default function App() {
           {/* ── Staff ── */}
           {isStaff && (
             <>
-              {activeModule === "dashboard"  && <Dashboard />}
+              {activeModule === "dashboard"  && <Dashboard loans={loans} />}
               {activeModule === "catalogo"   && <Catalog />}
               {activeModule === "prestamos"  && <Loans loans={loans} onLoansChange={setLoans} />}
               {activeModule === "usuarios"   && <Users />}
-              {activeModule === "reservas"   && <Reservations />}
+              {activeModule === "reservas"   && <Reservations reservations={reservations} onReservationsChange={setReservations} />}
               {activeModule === "gestion-libros" && role === "admin" && <BookManagement />}
               {activeModule === "solicitudes-adquisicion" && (
                 <AcquisitionRequests purchaseRequests={purchaseRequests} onRequestsChange={setPurchaseRequests} />
@@ -256,12 +256,13 @@ export default function App() {
           {/* ── Estudiante ── */}
           {role === "estudiante" && (
             <>
-              {activeModule !== "catalogo" && activeModule !== "reportes" && (
+              {activeModule !== "catalogo" && (
                 <StudentProfile
                   key={activeModule}
                   authUser={authUser}
                   initialTab={studentTab(activeModule) as any}
                   loans={loans}
+                  reservations={reservations}
                 />
               )}
               {activeModule === "catalogo" && (
@@ -273,20 +274,20 @@ export default function App() {
                   onNavigate={navigate}
                 />
               )}
-              {activeModule === "reportes" && <Reports loans={loans} role={role} />}
             </>
           )}
 
           {/* ── Docente ── */}
           {role === "docente" && (
             <>
-              {activeModule !== "catalogo" && activeModule !== "reportes" && (
+              {activeModule !== "catalogo" && (
                 <DocProfile
                   key={activeModule}
                   authUser={authUser}
                   initialTab={docenteTab(activeModule) as any}
                   loans={loans}
                   purchaseRequests={purchaseRequests}
+                  reservations={reservations}
                 />
               )}
               {activeModule === "catalogo" && (
@@ -299,7 +300,6 @@ export default function App() {
                   onNavigate={navigate}
                 />
               )}
-              {activeModule === "reportes" && <Reports loans={loans} role={role} />}
             </>
           )}
         </main>

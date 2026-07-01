@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BookMarked, CalendarDays, AlertTriangle, CheckCircle2, Clock, User, BookOpen } from "lucide-react";
-import { BOOKS, USERS, INITIAL_RESERVATIONS, type AuthUser, type Loan } from "./data";
+import { BOOKS, USERS, type AuthUser, type Loan, type Reservation } from "./data";
 import { BookCover } from "./BookCover";
 
 type Tab = "inicio" | "prestamos" | "reservas" | "perfil";
@@ -9,6 +9,7 @@ interface StudentProfileProps {
   authUser: AuthUser;
   initialTab?: Tab;
   loans?: Loan[];
+  reservations?: Reservation[];
 }
 
 function formatDate(str: string) {
@@ -21,8 +22,10 @@ function daysUntil(str: string) {
 }
 
 function loanStatusInfo(estado: string) {
-  if (estado === "activo") return { label: "Activo", color: "#1D6FA4", bg: "#DBEAFE" };
-  if (estado === "vencido") return { label: "Vencido", color: "#DC2626", bg: "#FEE2E2" };
+  if (estado === "pendiente")  return { label: "Pendiente aprobación", color: "#D97706", bg: "#FEF3C7" };
+  if (estado === "activo")     return { label: "Activo",               color: "#1D6FA4", bg: "#DBEAFE" };
+  if (estado === "vencido")    return { label: "Vencido",              color: "#DC2626", bg: "#FEE2E2" };
+  if (estado === "rechazado")  return { label: "Rechazado",            color: "#6B7A99", bg: "#F1F5F9" };
   return { label: "Devuelto", color: "#16A34A", bg: "#DCFCE7" };
 }
 
@@ -33,15 +36,14 @@ function resvStatusInfo(estado: string) {
   return { label: "Completada", color: "#16A34A", bg: "#DCFCE7" };
 }
 
-export function StudentProfile({ authUser, initialTab = "inicio", loans = [] }: StudentProfileProps) {
+export function StudentProfile({ authUser, initialTab = "inicio", loans = [], reservations = [] }: StudentProfileProps) {
   const [tab, setTab] = useState<Tab>(initialTab);
 
   const user = USERS.find((u) => u.id === authUser.userId);
   const myLoans = loans.filter((l) => l.usuarioId === authUser.userId);
-  const myActiveLoans = myLoans.filter((l) => l.estado === "activo" || l.estado === "vencido");
+  const myActiveLoans = myLoans.filter((l) => l.estado === "activo" || l.estado === "vencido" || l.estado === "pendiente");
   const myOverdueLoans = myLoans.filter((l) => l.estado === "vencido");
-  const myHistory = myLoans.filter((l) => l.estado === "devuelto");
-  const myReservations = INITIAL_RESERVATIONS.filter((r) => r.usuarioId === authUser.userId);
+  const myReservations = reservations.filter((r) => r.usuarioId === authUser.userId);
   const myPendingResvs = myReservations.filter((r) => r.estado === "pendiente" || r.estado === "confirmada");
 
   function getBook(id: string) { return BOOKS.find((b) => b.id === id); }

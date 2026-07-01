@@ -269,10 +269,12 @@ function NewReservationForm({
   );
 }
 
-export function Reservations() {
-  const [reservations, setReservations] = useState<
-    Reservation[]
-  >(INITIAL_RESERVATIONS);
+interface ReservationsProps {
+  reservations: Reservation[];
+  onReservationsChange: (r: Reservation[]) => void;
+}
+
+export function Reservations({ reservations, onReservationsChange }: ReservationsProps) {
   const [estadoFilter, setEstadoFilter] = useState("all");
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
@@ -306,22 +308,22 @@ export function Reservations() {
       id: `R${String(reservations.length + 1).padStart(3, "0")}`,
       estado: "pendiente",
     };
-    setReservations((prev) => [newR, ...prev]);
+    onReservationsChange([newR, ...reservations]);
     setShowForm(false);
   }
 
   function handleConfirm(id: string) {
-    setReservations((prev) =>
-      prev.map((r) =>
-        r.id === id ? { ...r, estado: "confirmada" } : r,
+    onReservationsChange(
+      reservations.map((r) =>
+        r.id === id ? { ...r, estado: "confirmada" as const } : r,
       ),
     );
   }
 
   function handleCancel(id: string) {
-    setReservations((prev) =>
-      prev.map((r) =>
-        r.id === id ? { ...r, estado: "cancelada" } : r,
+    onReservationsChange(
+      reservations.map((r) =>
+        r.id === id ? { ...r, estado: "cancelada" as const } : r,
       ),
     );
   }
