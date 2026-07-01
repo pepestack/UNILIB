@@ -185,7 +185,8 @@ export function Loans({ loans, onLoansChange }: LoansProps) {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-1 rounded-lg p-1" style={{ background: "var(--card)", border: "1px solid var(--border)", width: "fit-content" }}>
+      <div className="overflow-x-auto pb-1">
+      <div className="flex items-center gap-1 rounded-lg p-1" style={{ background: "var(--card)", border: "1px solid var(--border)", width: "fit-content", minWidth: "max-content" }}>
         {tabDefs.map((t) => (
           <button
             key={t.id}
@@ -209,6 +210,7 @@ export function Loans({ loans, onLoansChange }: LoansProps) {
             )}
           </button>
         ))}
+      </div>
       </div>
 
       {/* Pending info banner */}

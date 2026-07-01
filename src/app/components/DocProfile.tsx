@@ -66,7 +66,7 @@ export function DocProfile({ authUser, initialTab = "inicio", loans = [], purcha
   return (
     <div className="flex flex-col gap-5">
       {/* Header */}
-      <div className="rounded-xl p-6 flex items-center gap-5" style={{ background: "linear-gradient(135deg, #4C1D95 0%, #1C3D73 100%)", color: "#fff" }}>
+      <div className="rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4" style={{ background: "linear-gradient(135deg, #4C1D95 0%, #1C3D73 100%)", color: "#fff" }}>
         <div className="flex items-center justify-center rounded-full" style={{ width: 60, height: 60, background: "rgba(255,255,255,0.15)", flexShrink: 0 }}>
           <span style={{ fontSize: 20, fontWeight: 700, fontFamily: "'Playfair Display', serif" }}>{authUser.initials}</span>
         </div>
@@ -75,7 +75,7 @@ export function DocProfile({ authUser, initialTab = "inicio", loans = [], purcha
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: 22, lineHeight: 1.1 }}>{authUser.name}</h1>
           {user && <div style={{ fontSize: 13, opacity: 0.7, marginTop: 3 }}>{user.carrera} · {user.matricula}</div>}
         </div>
-        <div className="flex items-center gap-6 ml-auto">
+        <div className="flex items-center gap-4 sm:gap-6 flex-wrap">
           <div className="text-center">
             <div style={{ fontSize: 26, fontWeight: 700, fontFamily: "'Playfair Display', serif" }}>{myActiveLoans.length}</div>
             <div style={{ fontSize: 11, opacity: 0.7 }}>Préstamos</div>
@@ -94,7 +94,8 @@ export function DocProfile({ authUser, initialTab = "inicio", loans = [], purcha
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-1 rounded-lg p-1 flex-wrap" style={{ background: "var(--card)", border: "1px solid var(--border)", width: "fit-content" }}>
+      <div className="overflow-x-auto">
+      <div className="flex items-center gap-1 rounded-lg p-1" style={{ background: "var(--card)", border: "1px solid var(--border)", width: "fit-content", whiteSpace: "nowrap" }}>
         {tabs.map((t) => (
           <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1.5"
             style={{ padding: "6px 13px", borderRadius: 6, border: "none", cursor: "pointer", background: tab === t.id ? "var(--primary)" : "transparent", color: tab === t.id ? "#fff" : "var(--muted-foreground)", fontSize: 13, fontWeight: tab === t.id ? 600 : 400 }}>
@@ -104,6 +105,7 @@ export function DocProfile({ authUser, initialTab = "inicio", loans = [], purcha
             )}
           </button>
         ))}
+      </div>
       </div>
 
       {/* ── Inicio ── */}
@@ -118,7 +120,7 @@ export function DocProfile({ authUser, initialTab = "inicio", loans = [], purcha
               </div>
             </div>
           )}
-          <div className="grid gap-4" style={{ gridTemplateColumns: "1fr 1fr" }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Active loans */}
             <div className="rounded-xl" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
               <div className="flex items-center gap-2 px-5 py-4 border-b" style={{ borderColor: "var(--border)" }}>
@@ -374,7 +376,7 @@ export function DocProfile({ authUser, initialTab = "inicio", loans = [], purcha
 
       {/* ── Mi Perfil ── */}
       {tab === "perfil" && user && (
-        <div className="grid gap-4" style={{ gridTemplateColumns: "1fr 1fr" }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="rounded-xl p-5" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
             <h3 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: 16, color: "var(--foreground)", marginBottom: 14 }}>Información Académica</h3>
             <div className="flex flex-col gap-2.5">

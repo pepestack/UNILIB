@@ -410,7 +410,7 @@ export function BookManagement() {
       {/* ── INVENTORY TAB ── */}
       {tab === "inventario" && (
         <>
-          <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {[
               { label: "Total Ejemplares", value: totalEjemplares, color: "var(--primary)", bg: "var(--secondary)" },
               { label: "Disponibles", value: totalDisponibles, color: "#16A34A", bg: "#DCFCE7" },

@@ -275,7 +275,7 @@ export function Users() {
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between">
         <div>
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 26, fontWeight: 700, color: "var(--foreground)" }}>Gestión de Usuarios</h1>
           <p style={{ fontSize: 13.5, color: "var(--muted-foreground)", marginTop: 2 }}>{users.length} usuarios registrados en el sistema</p>

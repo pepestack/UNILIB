@@ -542,6 +542,7 @@ export function Catalog({ authUser, loans = [], onRequestLoan, onRequestReservat
 
   const currentUser = canBorrow && authUser?.userId ? USERS.find((u) => u.id === authUser.userId) : null;
   const myActiveLoans = canBorrow ? loans.filter((l) => l.usuarioId === authUser?.userId && l.estado !== "devuelto" && l.estado !== "rechazado") : [];
+  const hasOverdueLoans = canBorrow ? myActiveLoans.some((l) => l.estado === "vencido") : false;
 
   function isAlreadyBorrowed(bookId: string) {
     return myActiveLoans.some((l) => l.libroId === bookId && (l.estado === "activo" || l.estado === "pendiente"));
@@ -562,7 +563,7 @@ export function Catalog({ authUser, loans = [], onRequestLoan, onRequestReservat
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-col sm:flex-row items-start sm:justify-between gap-3">
         <div>
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 26, fontWeight: 700, color: "var(--foreground)" }}>Catálogo</h1>
           <p style={{ fontSize: 13.5, color: "var(--muted-foreground)", marginTop: 2 }}>{BOOKS.length} títulos en la colección</p>
@@ -593,8 +594,21 @@ export function Catalog({ authUser, loans = [], onRequestLoan, onRequestReservat
         </div>
       </div>
 
+      {/* Moroso banner */}
+      {hasOverdueLoans && (
+        <div className="rounded-lg px-4 py-3 flex items-start gap-3" style={{ background: "#FEE2E2", border: "1px solid #FECACA" }}>
+          <AlertTriangle size={16} style={{ color: "#DC2626", flexShrink: 0, marginTop: 1 }} />
+          <div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: "#991B1B", marginBottom: 1 }}>Cuenta con préstamos vencidos</div>
+            <div style={{ fontSize: 13, color: "#B91C1C" }}>
+              No puedes solicitar nuevos préstamos hasta devolver los libros vencidos. Acércate al mostrador de la biblioteca para regularizar tu situación.
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Docente banner */}
-      {isDocente && (
+      {isDocente && !hasOverdueLoans && (
         <div className="rounded-lg px-4 py-3 flex items-center gap-3" style={{ background: "#EDE9FE", border: "1px solid #DDD6FE" }}>
           <BookMarked size={15} style={{ color: "#7C3AED", flexShrink: 0 }} />
           <span style={{ fontSize: 13, color: "#4C1D95" }}>
@@ -667,7 +681,11 @@ export function Catalog({ authUser, loans = [], onRequestLoan, onRequestReservat
                     {canBorrow && (
                       <td style={{ padding: "10px 12px" }} onClick={(e) => e.stopPropagation()}>
                         <div className="flex items-center gap-1.5 flex-wrap">
-                          {borrowed ? (
+                          {hasOverdueLoans ? (
+                            <span className="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-semibold" style={{ background: "#FEE2E2", color: "#DC2626" }}>
+                              <AlertTriangle size={10} /> Moroso
+                            </span>
+                          ) : borrowed ? (
                             <span className="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-medium" style={{ background: "#DCFCE7", color: "#16A34A" }}>
                               <CheckCircle2 size={10} /> Solicitado
                             </span>
@@ -728,7 +746,7 @@ export function Catalog({ authUser, loans = [], onRequestLoan, onRequestReservat
         />
       )}
 
-      {loanRequestBook && authUser && currentUser && (
+      {loanRequestBook && authUser && currentUser && !hasOverdueLoans && (
         <LoanRequestModal
           book={loanRequestBook}
           authUser={authUser}
@@ -739,7 +757,7 @@ export function Catalog({ authUser, loans = [], onRequestLoan, onRequestReservat
         />
       )}
 
-      {externalLoanBook && authUser && currentUser && (
+      {externalLoanBook && authUser && currentUser && !hasOverdueLoans && (
         <ExternalLoanModal
           book={externalLoanBook}
           authUser={authUser}

@@ -503,10 +503,10 @@ export const INITIAL_LOANS: Loan[] = [
     id: "P003",
     libroId: "B002",
     usuarioId: "U002",
-    fechaPrestamo: "2026-05-28",
-    fechaDevolucion: "2026-06-11",
-    estado: "vencido",
-    renovaciones: 1,
+    fechaPrestamo: "2026-06-18",
+    fechaDevolucion: "2026-07-09",
+    estado: "activo",
+    renovaciones: 0,
   },
   {
     id: "P004",
@@ -800,6 +800,7 @@ export type ModuleId =
   | "mis-prestamos"
   | "mis-reservas"
   | "mis-solicitudes"
+  | "reportes"
   | "perfil";
 
 export type UserRole = "guest" | "estudiante" | "docente" | "bibliotecario" | "admin";

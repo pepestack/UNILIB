@@ -42,7 +42,7 @@ export function AdminProfile({ authUser }: AdminProfileProps) {
         </div>
       </div>
 
-      <div className="grid gap-4" style={{ gridTemplateColumns: "1fr 1fr" }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Account info */}
         <div className="rounded-xl p-5" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
           <h3 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: 16, color: "var(--foreground)", marginBottom: 14 }}>Información de Cuenta</h3>
@@ -92,7 +92,7 @@ export function AdminProfile({ authUser }: AdminProfileProps) {
           <Activity size={16} style={{ color: "var(--primary)" }} />
           <h3 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: 16, color: "var(--foreground)" }}>Estado General del Sistema</h3>
         </div>
-        <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))" }}>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {[
             { icon: <BookOpen size={18} />, label: "Títulos en catálogo", value: totalBooks, color: "var(--primary)", bg: "var(--secondary)" },
             { icon: <Users size={18} />, label: "Usuarios registrados", value: totalUsers, color: "#7C3AED", bg: "#EDE9FE" },

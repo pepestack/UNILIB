@@ -56,7 +56,7 @@ export function StudentProfile({ authUser, initialTab = "inicio", loans = [] }: 
   return (
     <div className="flex flex-col gap-5">
       {/* Welcome header */}
-      <div className="rounded-xl p-6 flex items-center gap-5" style={{ background: "var(--primary)", color: "#fff" }}>
+      <div className="rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4" style={{ background: "var(--primary)", color: "#fff" }}>
         <div className="flex items-center justify-center rounded-full" style={{ width: 56, height: 56, background: "rgba(255,255,255,0.15)", flexShrink: 0 }}>
           <span style={{ fontSize: 20, fontWeight: 700, fontFamily: "'Playfair Display', serif" }}>{authUser.initials}</span>
         </div>
@@ -65,7 +65,7 @@ export function StudentProfile({ authUser, initialTab = "inicio", loans = [] }: 
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: 22, lineHeight: 1.2 }}>{authUser.name}</h1>
           {user && <div style={{ fontSize: 13.5, opacity: 0.75, marginTop: 3 }}>{user.carrera} · {user.matricula}</div>}
         </div>
-        <div className="ml-auto flex items-center gap-6">
+        <div className="flex items-center gap-4 sm:gap-6 flex-wrap">
           <div className="text-center">
             <div style={{ fontSize: 26, fontWeight: 700, fontFamily: "'Playfair Display', serif" }}>{myActiveLoans.length}</div>
             <div style={{ fontSize: 11, opacity: 0.7 }}>Préstamos activos</div>
@@ -84,7 +84,8 @@ export function StudentProfile({ authUser, initialTab = "inicio", loans = [] }: 
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-1 rounded-lg p-1" style={{ background: "var(--card)", border: "1px solid var(--border)", width: "fit-content" }}>
+      <div className="overflow-x-auto">
+      <div className="flex items-center gap-1 rounded-lg p-1" style={{ background: "var(--card)", border: "1px solid var(--border)", width: "fit-content", whiteSpace: "nowrap" }}>
         {tabs.map((t) => (
           <button
             key={t.id}
@@ -107,6 +108,7 @@ export function StudentProfile({ authUser, initialTab = "inicio", loans = [] }: 
           </button>
         ))}
       </div>
+      </div>
 
       {/* Tab: Inicio */}
       {tab === "inicio" && (
@@ -122,7 +124,7 @@ export function StudentProfile({ authUser, initialTab = "inicio", loans = [] }: 
             </div>
           )}
 
-          <div className="grid gap-4" style={{ gridTemplateColumns: "1fr 1fr" }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Active loans */}
             <div className="rounded-xl" style={{ background: "var(--card)", border: "1px solid var(--border)", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
               <div className="flex items-center gap-2 px-5 py-4 border-b" style={{ borderColor: "var(--border)" }}>
@@ -311,7 +313,7 @@ export function StudentProfile({ authUser, initialTab = "inicio", loans = [] }: 
 
       {/* Tab: Mi Perfil */}
       {tab === "perfil" && user && (
-        <div className="grid gap-4" style={{ gridTemplateColumns: "1fr 1fr" }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="rounded-xl p-5" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
             <h3 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: 16, color: "var(--foreground)", marginBottom: 16 }}>Información Personal</h3>
             <div className="flex flex-col gap-3">

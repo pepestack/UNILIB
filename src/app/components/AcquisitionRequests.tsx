@@ -132,7 +132,7 @@ export function AcquisitionRequests({ purchaseRequests, onRequestsChange }: Acqu
       </div>
 
       {/* Summary cards */}
-      <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { label: "Pendientes",     value: counts.pendiente,     color: "#D97706", bg: "#FEF3C7" },
           { label: "En evaluación",  value: counts.en_evaluacion, color: "#1D6FA4", bg: "#DBEAFE" },
@@ -211,7 +211,7 @@ export function AcquisitionRequests({ purchaseRequests, onRequestsChange }: Acqu
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 mb-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-3">
                 {[
                   { label: "Cantidad / Usuarios", value: req.cantidad },
                   { label: "Asignatura",           value: req.asignatura || "—" },

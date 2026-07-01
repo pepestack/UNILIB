@@ -1,6 +1,6 @@
 import {
   LayoutDashboard, BookOpen, BookMarked, Users, CalendarDays,
-  BookText, LogOut, User, Library, Home, ShoppingCart,
+  BookText, LogOut, User, Library, Home, ShoppingCart, BarChart2,
 } from "lucide-react";
 import type { ModuleId, UserRole } from "./data";
 
@@ -14,6 +14,7 @@ const ADMIN_NAV: NavItem[] = [
   { id: "reservas",             label: "Reservas",                icon: <CalendarDays size={17} /> },
   { id: "gestion-libros",       label: "Gestión de Libros",       icon: <Library size={17} /> },
   { id: "solicitudes-adquisicion", label: "Adquisiciones",        icon: <ShoppingCart size={17} /> },
+  { id: "reportes",             label: "Reportes",                icon: <BarChart2 size={17} /> },
 ];
 
 const BIBLIOTECARIO_NAV: NavItem[] = [
@@ -22,6 +23,7 @@ const BIBLIOTECARIO_NAV: NavItem[] = [
   { id: "prestamos",            label: "Gestión de Préstamos",    icon: <BookMarked size={17} /> },
   { id: "reservas",             label: "Reservas",                icon: <CalendarDays size={17} /> },
   { id: "solicitudes-adquisicion", label: "Adquisiciones",        icon: <ShoppingCart size={17} /> },
+  { id: "reportes",                label: "Reportes",              icon: <BarChart2 size={17} /> },
 ];
 
 const ESTUDIANTE_NAV: NavItem[] = [
@@ -29,6 +31,7 @@ const ESTUDIANTE_NAV: NavItem[] = [
   { id: "catalogo",             label: "Catálogo",                icon: <BookOpen size={17} /> },
   { id: "mis-prestamos",        label: "Mis Préstamos",           icon: <BookMarked size={17} /> },
   { id: "mis-reservas",         label: "Mis Reservas",            icon: <CalendarDays size={17} /> },
+  { id: "reportes",             label: "Reportes",                icon: <BarChart2 size={17} /> },
 ];
 
 const DOCENTE_NAV: NavItem[] = [
@@ -37,6 +40,7 @@ const DOCENTE_NAV: NavItem[] = [
   { id: "mis-prestamos",        label: "Mis Préstamos",           icon: <BookMarked size={17} /> },
   { id: "mis-reservas",         label: "Mis Reservas",            icon: <CalendarDays size={17} /> },
   { id: "mis-solicitudes",      label: "Mis Adquisiciones",       icon: <ShoppingCart size={17} /> },
+  { id: "reportes",             label: "Reportes",                icon: <BarChart2 size={17} /> },
 ];
 
 function getNav(role: UserRole): NavItem[] {
@@ -67,11 +71,12 @@ interface SidebarProps {
   userEmail: string;
   userInitials: string;
   onLogout: () => void;
+  onClose?: () => void;
   pendingLoans?: number;
   pendingAcquisitions?: number;
 }
 
-export function Sidebar({ active, onNavigate, role, userName, userEmail, userInitials, onLogout, pendingLoans = 0, pendingAcquisitions = 0 }: SidebarProps) {
+export function Sidebar({ active, onNavigate, role, userName, userEmail, userInitials, onLogout, onClose, pendingLoans = 0, pendingAcquisitions = 0 }: SidebarProps) {
   const navItems = getNav(role);
 
   function NavButton({ item }: { item: NavItem }) {
@@ -99,14 +104,22 @@ export function Sidebar({ active, onNavigate, role, userName, userEmail, userIni
   return (
     <aside className="flex flex-col h-full" style={{ background: "var(--sidebar)", color: "var(--sidebar-foreground)", width: 252, flexShrink: 0 }}>
       {/* Logo */}
-      <div className="flex items-center gap-3 px-5 py-5 border-b" style={{ borderColor: "var(--sidebar-border)" }}>
+      <div className="flex items-center gap-3 px-4 py-4 border-b" style={{ borderColor: "var(--sidebar-border)" }}>
         <div className="flex items-center justify-center rounded-lg" style={{ background: "var(--sidebar-primary)", width: 36, height: 36, flexShrink: 0 }}>
           <BookText size={18} color="#fff" />
         </div>
-        <div>
+        <div className="flex-1 min-w-0">
           <div style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: 18, color: "#fff", lineHeight: 1.1 }}>UNILIB</div>
           <div style={{ fontSize: 10, color: "var(--sidebar-foreground)", opacity: 0.5, letterSpacing: "0.06em", textTransform: "uppercase" }}>Gestión Bibliotecaria</div>
         </div>
+        {onClose && (
+          <button
+            onClick={onClose}
+            style={{ background: "rgba(255,255,255,0.1)", border: "none", borderRadius: 6, width: 28, height: 28, cursor: "pointer", color: "rgba(255,255,255,0.7)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 14 }}
+          >
+            ✕
+          </button>
+        )}
       </div>
 
       {/* Navigation */}

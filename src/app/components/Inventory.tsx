@@ -227,7 +227,7 @@ export function Inventory() {
       </div>
 
       {/* Stats */}
-      <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { label: "Total Ejemplares", value: totalEjemplares, color: "var(--primary)", bg: "var(--secondary)" },
           { label: "Disponibles", value: totalDisponibles, color: "#16A34A", bg: "#DCFCE7" },

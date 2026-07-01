@@ -98,7 +98,7 @@ export function Dashboard() {
       </div>
 
       {/* Stat Cards */}
-      <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(210px, 1fr))" }}>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard icon={<BookOpen size={22} />} label="Títulos en Catálogo" value={totalLibros} sub={`${totalEjemplares} ejemplares totales`} accent />
         <StatCard icon={<BookMarked size={22} />} label="Préstamos Activos" value={prestamosActivos} sub={`${librosDisponibles} títulos disponibles`} />
         <StatCard icon={<Users size={22} />} label="Usuarios Registrados" value={USERS.length} sub={`${usuariosActivos} activos`} />
@@ -109,7 +109,7 @@ export function Dashboard() {
       </div>
 
       {/* Two-column layout */}
-      <div className="grid gap-5" style={{ gridTemplateColumns: "1fr 1fr" }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Recent Active Loans */}
         <div className="rounded-xl" style={{ background: "var(--card)", border: "1px solid var(--border)", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
           <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: "var(--border)" }}>
@@ -200,7 +200,7 @@ export function Dashboard() {
           <TrendingUp size={16} style={{ color: "var(--primary)" }} />
           <span style={{ fontWeight: 600, fontSize: 14, color: "var(--foreground)" }}>Distribución por Área</span>
         </div>
-        <div className="px-5 py-4 grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))" }}>
+        <div className="px-5 py-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {Array.from(new Set(BOOKS.map((b) => b.categoria))).map((cat) => {
             const items = BOOKS.filter((b) => b.categoria === cat);
             const total = items.reduce((a, b) => a + b.totalEjemplares, 0);
